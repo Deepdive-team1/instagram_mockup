@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/profile.css">
+    <link rel="stylesheet" href="/styles/components/sidebar.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <title>Document</title>
+</head>
+<body>
+    <aside id="sidebar-container"></aside>
+    <main class="profile__main-content">
+    <section class="profile__info-area">
+        <div class="profile__info">
+            <img src="/assets/profile.png" class="profile__header-img">
+            <div class="profile__info-text">
+                <div class="profile__info-id-area">
+                    <span class="profile__info-user-id">user-id</span>
+                    <button class="profile__info-user-id-more-btn">
+                        <i class="bi bi-three-dots"></i>
+                    </button>
+                </div>
+                <span class="profile__info-user-name">user-name</span>
+                <div class="profile__info-follow-area">
+                    <span>게시물 392</span> 
+                    <button class="profile__info-followers">팔로워 <span class="profile__info-follow-value">239</span></button>
+                    <button class="profile__info-followings">팔로우 <span class="profile__info-follow-value">329</span></button>
+                </div>
+                
+                <p class="profile__info-description">description</p>
+            </div>
+        </div>
+        <div class="profile__action">
+            <button class="profile__action-follow">팔로우</button>
+            <button class="profile__action-message">메시지 보내기</button>
+        </div>
+        <section class="profile__highlight">
+            <div id="story-item-container"></div>
+        </section>
+    </section>
+    <div class="profile__feed">
+        <div id="profile__feed-item-container"></div>
+    </div>
+    </main>
+    <div id="modal__container"></div>
+    <script src="/js/common.js"></script>
+    <script src="/js/modal-controller.js"></script>
+</body>
+</html>
