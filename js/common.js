@@ -27,14 +27,14 @@ async function loadComponent(url, containerId, repeatCount = 1) {
 
 // 컴포넌트 로드
 const requiredComponents = [
-    loadComponent('/components/sidebar.html', 'sidebar-container', 1),
-    loadComponent('/components/story-item.html', 'story-item-container', 5),
-    loadComponent('/components/post-card.html', 'post-card-container', 3),
-    loadComponent('/components/profile-post-card.html', 'profile__feed-item-container', 8),
+    loadComponent('../components/sidebar.html', 'sidebar-container', 1),
+    loadComponent('../components/story-item.html', 'story-item-container', 5),
+    loadComponent('../components/post-card.html', 'post-card-container', 3),
+    loadComponent('../components/profile-post-card.html', 'profile__feed-item-container', 8),
     
     
     // 추천 사용자 로드 + 내부 아이템 로드 (컴포넌트화가 필요한 줄 알았으나 필요 X -> 추후 수정 예정)
-    loadComponent('/components/recommended-users.html', 'recommended-users-container', 1)
+    loadComponent('../components/recommended-users.html', 'recommended-users-container', 1)
         .then(() => {
             return loadComponent('components/recommended-item.html', 'recommended-users__item-container', 5);
         })
