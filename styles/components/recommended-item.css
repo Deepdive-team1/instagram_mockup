@@ -1,0 +1,39 @@
+/*recommended-item*/
+.recommended-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.recommended-item__profile-img {
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #c7c7c7;
+}
+
+.recommended-item__info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  font-size: 0.875rem;   
+}
+
+.recommended-item__username {
+  font-weight: 600;
+}
+
+.recommended-item__recommend-text {
+  font-size: 0.75rem;  
+  color: #8e8e8e;
+}
+
+.recommended-item__follow-btn {
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: none;
+  border: none;
+  cursor: pointer;
+}

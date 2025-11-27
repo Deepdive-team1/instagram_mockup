@@ -1,0 +1,90 @@
+/* recommended-users*/
+
+.recommended-users {
+    width: 18rem;  
+    padding: 2rem 1rem 0 1.5rem;
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    font-size: 0.75rem; 
+}
+
+.recommended-users__my-profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.recommended-users__my-profile img {
+    width: 3rem;    
+    height: 3rem;
+    border-radius: 50%;
+    margin-right: 0.6rem;
+}
+
+.recommended-users__my-profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.recommended-users__my-profile-username {
+    font-weight: 600;
+    font-size: 0.875rem; 
+}
+
+.recommended-users__my-profile-name {
+    font-size: 0.75rem; 
+    color: #8e8e8e;
+}
+
+.recommended-users__switch-btn {
+    margin-left: auto;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #0095F6;
+}
+
+.recommended-users__header {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #8e8e8e;
+    margin-bottom: 1.25rem;
+}
+
+.recommended-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.recommended-item__profile-img {
+    width: 2.5rem;  
+    height: 2.5rem;
+    border-radius: 50%;
+    margin-right: 0.1rem;
+    background-color: #c7c7c7;
+}
+
+.recommended-item__info {
+    flex-grow: 1;
+}
+
+.recommended-item__username {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.recommended-item__recommend-text {
+    font-size: 0.75rem; 
+    color: #8e8e8e;
+    line-height: 1.2;
+    margin-top: 0.2rem;
+}
+
+.recommended-item__follow-btn {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #0095F6;
+    white-space: nowrap;
+}

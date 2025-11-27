@@ -1,0 +1,36 @@
+/* 반복되는 색상 */
+
+:root{
+    /* 색상*/
+    --color-bg: #fafafa; /*전체 배경 연한 회색 */
+    --color-bg-panel: #fff;  /* 패널 섹션들의 배경 하얀색*/
+    --color-text: #000;
+    --color-light: #8E8E8E;
+    --color-border: #dbdbdb; 
+    --color-border-light: #efefef;
+    --color-primary: #4A5DF9;
+    --color-secondary: #ed4956; /* 하트, 경고 등의 용도*/
+
+
+    /*폰트*/
+    --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-size-base: 16px; /*rem의 기준*/
+    --font-size-small: 0.875rem; 
+    --font-size-normal: 1rem;
+    --font-size-large: 1.125rem;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-bold: 700;
+
+
+    /*간격(마진,패딩)*/
+    --space-xsmall: 4px;
+    --space-small: 8px;
+    --space-medium: 12px;
+    --space-large: 16px;
+    --space-xlarge: 24px;
+
+
+    /*레이아웃*/
+    --layout-max-width: 60rem;   
+}

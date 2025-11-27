@@ -1,51 +1,53 @@
-/* 🚀 사이드바 (Sidebar) */
+/* Sidebar  */
+
 .sidebar {
-    width: 240px; /* 기본 너비 */
-    border-right: 1px solid #DBDBDB;
-    padding: 20px 12px;
-    height: 100vh; /* 전체 뷰포트 높이 */
-    position: sticky; /* 스크롤 시 고정 */
-    top: 0;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
+  width: 15rem;                      
+  border-right: 1px solid var(--color-border);
+  padding: 1.25rem 0.75rem;          
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
+
 .sidebar__logo {
-    /* 로고가 들어갈 영역 */
-    height: 30px; 
-    margin-bottom: 30px;
-    margin-top: 30px;
-    width: 100px; 
+  width: 6.25rem;                    
+  height: 1.875rem;                  
+  margin: 1.875rem 0;                
 }
+
 
 .sidebar__list {
     flex-grow: 1;
 }
 
+
 .sidebar__item {
-    display: flex;
-    align-items: center;
-    padding: 12px;
-    margin-bottom: 4px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;                   
+  margin-bottom: 0.25rem;            
+  border-radius: 0.5rem;              
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .sidebar__item:hover {
-    background-color: #EFEFEF;
+    background-color: var(--color-border-light);
 }
+
 
 .sidebar__item-link {
-    /* 링크가 비어있으므로 임시 스타일 */
-    width: 100%;
-    height: 100%;
-    margin-left: 15px;
+    margin-left: 1rem;    
 }
 
+
 .sidebar__profile-img {
-    width: 15px;
-    height: 15px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    object-fit: cover;
 }

@@ -1,0 +1,30 @@
+/* Story Item */
+.story__item {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-right: var(--space-medium);      /* 12px */
+    width: 74px;                           
+}
+
+.story__profile-img {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+
+    border: 2px solid #C13584;              /* 스토리 테두리 */
+    padding: 2px;                           
+    background: var(--color-bg);            /* fff */
+}
+
+.story__profile-name {
+    margin-top: var(--space-xsmall);           /* 4px */
+    font-size: var(--font-size-small);         /* 14px */
+    color: var(--color-text);
+    max-width: 60px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

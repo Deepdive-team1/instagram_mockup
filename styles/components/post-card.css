@@ -1,0 +1,118 @@
+/* post-card */
+
+.post-card {
+  background-color: var(--color-bg-panel);
+  border: 1px solid var(--color-border);
+  border-radius: 0.25rem;               
+}
+
+.post-card__header {
+  display: flex;
+  align-items: center;
+  padding: 0.625rem 0.9375rem;          
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.post-card__profile-img {
+  width: 2rem; 
+  height: 2rem;
+  border-radius: 50%;
+  margin-right: 0.625rem; 
+  object-fit: cover;
+}
+
+.post-card__header p {
+  flex-grow: 1;
+}
+
+.post-card__header time {
+  color: var(--color-text-light);
+  font-weight: 400;
+  margin-left: 0.3125rem; 
+}
+
+.post-card__option-btn {
+  all: unset; /* 기본 버튼 스타일 제거 */
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+.post-card__img {
+  width: 100%;
+  max-height: 37.5rem; 
+  object-fit: cover;
+  border-top: 0.0625rem solid var(--color-border);
+  border-bottom: 0.0625rem solid var(--color-border);
+}
+
+.post-card__description {
+  padding: 0.5rem 0.9375rem;
+}
+
+
+.post-card__action {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem; 
+}
+
+.post-card__action-button {
+  all: unset;           /* 배경/패딩/보더 제거 */
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;    
+  color: var(--color-text);
+  margin-right: 1.125rem; 
+}
+
+.post-card__action-button p {
+  font-size: var(--font-size-small);
+  font-weight: 600;
+  margin-left: 0.3125rem; 
+}
+
+.post-card__action-button:last-child {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.post-card-action-icon {
+  font-size: 1.5rem;
+}
+
+
+.post-card__info {
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.post-card__info p:first-child {
+  font-weight: 600;
+  margin-right: 0.3125rem; 
+}
+
+.post-card__info-more-btn {
+  all: unset; /* 버튼 초기화 */
+  color: var(--color-text-light);
+  font-size: var(--font-size-md);
+  margin-left: 0.3125rem;
+}
+
+
+.post-card__comment-form {
+  padding-top: 0.5rem;
+  border-top: 0.0625rem solid var(--color-border-light);
+}
+
+.post-card__comment-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 0.5rem 0; 
+  font-size: var(--font-size-md);
+}
