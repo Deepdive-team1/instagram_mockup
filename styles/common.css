@@ -1,13 +1,28 @@
+/* reset & theme */
 @import "./reset.css";
 @import "./theme.css";
 
+/* layout (전체 레이아웃 관련만) */
+@import "./layout.css";
 
+/* components */
+@import "./components/sidebar.css";
+@import "./components/story-item.css";
+@import "./components/post-card.css";
+@import "./components/recommended-users.css";
+@import "./components/recommended-item.css";
+@import "./components/profile-post-card.css";
+
+
+
+/*공통 내용*/
 body {
   font-family: var(--font-family-base);
   background: var(--color-bg);
   color: var(--color-text);
-  display: flex;
   min-height: 100vh;
+  line-height: 1.4;
+  display: flex;
 }
 
 a {
@@ -27,8 +42,8 @@ img {
 .btn {
   padding: var(--space-small) var(--space-medium);
   border: 0;
-  border-radius: 5px;
-  font-size: var(--font-size-md);
+  border-radius: 1px;
+  font-size: var(--font-size-);
 }
 
 .card {

@@ -1,16 +1,28 @@
 /* Story Item */
+
+.story {
+  width: 100%;
+  max-width: 29.375rem;       
+  margin-bottom: 1.25rem;     
+  padding: 1rem 0;
+  background-color: var(--color-bg-panel);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  white-space: nowrap;
+}
 .story__item {
     display: inline-flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     margin-right: var(--space-medium);      /* 12px */
-    width: 74px;                           
+    width: 4.625rem;                        
 }
 
 .story__profile-img {
-    width: 56px;
-    height: 56px;
+    width: 3.5rem; 
+    height: 3.5rem; 
     border-radius: 50%;
     object-fit: cover;
 
@@ -23,7 +35,7 @@
     margin-top: var(--space-xsmall);           /* 4px */
     font-size: var(--font-size-small);         /* 14px */
     color: var(--color-text);
-    max-width: 60px;
+    max-width:  3.75rem;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

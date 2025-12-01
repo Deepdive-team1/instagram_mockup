@@ -1,25 +1,5 @@
 /*profile*/
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    margin: 0;
-    background-color: #fafafa;
-    color: #262626;
-    display: flex;
-    min-height: 100vh;
-}
-
-img {
-    display: block;
-    max-width: 100%;
-}
-
-button {
-    background: none;
-    border: none;
-}
-
-
 .profile__info-area,
 .profile__feed {
     width: 100%;
@@ -29,9 +9,11 @@ button {
 }
 
 .profile__main-content {
-    display: flex;
-    flex-direction: column;
+    flex-grow: 1;
+    max-width: 60rem;
+    padding: 2rem 1rem;
 }
+
 
 .profile__info-area {
     margin-top: 3rem;
@@ -61,6 +43,15 @@ button {
     padding-top: 0.6rem;
 }
 
+.profile__info-text button {
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    color: inherit;
+}
+
 .profile__info-id-area {
     display: flex;
     align-items: center;
@@ -77,28 +68,24 @@ button {
     display: flex;
     gap: 0.5rem;
     width: 100%;
-    max-width: 58.4rem; 
 }
 
 .profile__action button {
-    padding: 0.3rem 1rem;
-    border-radius: 0.4rem;
-    font-size: 0.875rem;
-    font-weight: 600;
-    line-height: 1.4;
-    min-width: 32.2vw;
+    flex: 1;               
+    min-width: 0;
+    height: 2rem;
 }
 
 .profile__action-follow {
     background-color: #4267b2;
-    color: #fff;
-    border: 1px solid #4267b2;
+    color: var(--color-bg-panel);
+    border: 0.125rem solid #4267b2;
 }
 
 .profile__action-message {
     background-color: #efefef;
-    color: #262626;
-    border: 1px solid #dbdbdb;
+    color: var(--color-text);
+    border: 0.125rem solid var(--color-border);
 }
 
 .profile__info-user-id-more-btn {
@@ -137,57 +124,11 @@ button {
     width: 100%;
     padding: 1rem 0;
     margin-bottom: 1rem;
-    background: #fff;
-    border: 1px solid #dbdbdb;
+    background: var(--color-bg-panel);
+    border: 0.125rem solid var(--color-border);
     border-radius: 0.5rem;
     white-space: nowrap;
     overflow-x: auto;
-}
-
-.story__item {
-    display: inline-block;
-    text-align: center;
-    margin: 0 0.6rem;
-}
-
-.story__profile-img {
-    width: 3.5rem;
-    height: 3.5rem;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 0.125rem solid #c13584;
-    padding: 0.125rem;
-}
-
-.story__profile-name {
-    margin-top: 0.3rem;
-    font-size: 0.75rem;
-    max-width: 3.5rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.profile__feed-nav {
-    display: flex;
-    justify-content: center;
-    gap: 3.75rem;
-    margin-bottom: 1.5rem;
-    border-top: 1px solid #dbdbdb;
-}
-
-.profile__feed-nav div {
-    padding: 1rem 0;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: #8e8e8e;
-    cursor: pointer;
-    text-transform: uppercase;
-}
-
-.profile__feed-nav div:first-child {
-    color: #262626;
-    border-top: 1px solid #262626;
-    margin-top: -1px;
 }
 
 #profile__feed-item-container {
@@ -197,10 +138,6 @@ button {
     padding: 0 1.25rem;
 }
 
-.post-item {
-    aspect-ratio: 3 / 4;
-    overflow: hidden;
-}
 
 .modal__backdrop {
     display: none;

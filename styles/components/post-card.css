@@ -2,7 +2,7 @@
 
 .post-card {
   background-color: var(--color-bg-panel);
-  border: 1px solid var(--color-border);
+  border: 0.125rem solid var(--color-border);
   border-radius: 0.25rem;               
 }
 
@@ -115,4 +115,12 @@
   background: transparent;
   padding: 0.5rem 0; 
   font-size: var(--font-size-md);
+}
+
+.post-card__list {
+  width: 100%;
+  max-width: 29.375rem;      
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;              
 }
