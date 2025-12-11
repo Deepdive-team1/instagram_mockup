@@ -1,38 +1,37 @@
 <article class="post-card">
-    <div class="post-card__header">
-        <img class="post-card__profile-img" src="https://placehold.co/40x40/9CA3AF/FFFFFF?text=P"/>
-        <p>user-name • <time>1h</time></p>
-        <button class="post-card__option-btn">
-            <i class="bi bi-three-dots"></i>
-        </button>
+    <header class="post-card__header">
+        <div class="post-card__profile">
+            <img class="post-card__author-image" src="{{author.profileImageUrl}}" alt="profile">
+            <span class="post-card__username">{{author.username}}</span>
+            <span class="post-card__time"> • {{createdAt}}</span>
+        </div>
+        <button><i class="bi bi-three-dots"></i></button>
+    </header>
+    
+    <div class="post-card__media">
+        <img src="{{mediaUrl}}" alt="post content">
     </div>
-    <img class="post-card__img" src="https://placehold.co/600x400/374151/FFFFFF?text=Post+Image"/>
-    <div class="post-card__description">
-        <div class="post-card__action">
-            <button class="post-card__action-button">
-                <i class="bi bi-heart post-card-action-icon"></i>
-                <p>46</p>
-            </button>
-            <button class="post-card__action-button">
-                <i class="bi bi-chat post-card-action-icon"></i>
-                <p>12</p>
-            </button>
-            <button class="post-card__action-button">
-                <i class="bi bi-send post-card-action-icon"></i>
-            </button>
-            <button class="post-card__action-button">
-                <i class="bi bi-bookmark post-card-action-icon"></i>
-            </button>
+    
+    <div class="post-card__icon-bar">
+        <div class="icon-group">
+            <button class="post-card__like-button"><i class="bi bi-heart"></i></button>
+            <button><i class="bi bi-chat"></i></button>
+            <button><i class="bi bi-send"></i></button>
         </div>
-        <div class="post-card__info">
-            <p>user-name</p>
-            <p>info</p>
-            <button class="post-card__info-more-btn">
-                ... 더 보기
-            </button>
+        <button class="post-card__save-button"><i class="bi bi-bookmark"></i></button>
+        
+    </div>
+    
+    <div class="post-card__details">
+        <div class="post-card__likes">좋아요 {{likesCount}}개</div>
+        <div class="post-card__caption-box">
+            <span class="post-card__username">{{author.username}}</span>
+            <span class="post-card__text">{{caption}}</span>
         </div>
-        <form class="post-card__comment-form">
-            <input type="text" placeholder="댓글 달기..." class="post-card__comment-input">
-        </form>
+        <div class="post-card__comment-input">
+            <input type="text" placeholder="댓글 달기...">
+            <button>&nbsp;게시</button>
+        </div>
+</button>
     </div>
 </article>

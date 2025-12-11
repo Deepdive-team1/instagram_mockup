@@ -1,0 +1,14 @@
+/* styles/common.css */
+
+/* 1. 기초 설정 */
+@import url("./reset.css");
+@import url("./theme.css");
+@import url("./layout.css"); /* [New] 전체 레이아웃 파일 */
+
+/* 2. 컴포넌트 스타일 (각 파일로 분리됨) */
+@import url("./components/sidebar.css");
+@import url("./components/story-item.css");
+@import url("./components/post-card.css");
+@import url("./components/post-modal.css");
+@import url("./components/recommended.css");
+@import url("./components/footer-nav.css");

@@ -1,0 +1,85 @@
+/* 전체 틀: 양옆에 50px씩 공간을 비워둡니다 (버튼 자리) */
+.story-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 650px; /* 전체 너비 제한 (선택사항) */
+  margin: 0 auto;
+  padding: 0 50px; /* ★ 핵심: 여기에 버튼이 들어갑니다 */
+  box-sizing: border-box;
+}
+
+/* 스토리 담는 통 */
+.story-item-container {
+  display: flex;
+  gap: 15px; /* 아이템 사이 간격 */
+  overflow-x: hidden; /* 스크롤바 숨김 + 넘치는 것 안 보임 */
+  scroll-behavior: smooth;
+  padding: 10px 0;
+}
+
+/* 개별 아이템: 정확히 4개만 보이게 계산 */
+/* 식: (전체폭 100% - (간격 15px * 3개)) / 4개 */
+.story-item {
+  flex: 0 0 calc((100% - 45px) / 4); 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* 이미지 링 스타일 (기존 유지) */
+.story-item__ring {
+  width: 60px; /* 사이즈 조절 */
+  height: 60px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  margin-bottom: 5px;
+}
+
+.story-item__ring img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid white; /* 링 안쪽 흰 테두리 */
+  object-fit: cover;
+}
+
+.story-item__username {
+  font-size: 12px;
+  max-width: 70px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- 버튼 스타일 --- */
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px; 
+  height: 30px;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid #dbdbdb;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* 그림자 살짝 진하게 */
+  cursor: pointer;
+  z-index: 10;
+  
+  /* 아이콘 정렬 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #555;
+}
+
+/* 버튼 위치: wrapper의 padding(50px) 공간의 중앙에 배치 */
+.prev-btn {
+  left: 10px; /* 왼쪽 여백 안쪽 */
+}
+
+.next-btn {
+  right: 10px; /* 오른쪽 여백 안쪽 */
+}

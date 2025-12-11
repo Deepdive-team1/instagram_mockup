@@ -1,0 +1,28 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "author": {
+        "username": "coex_official",
+        "profileImageUrl": "https://randomuser.me/api/portraits/women/44.jpg"
+      },
+      "mediaUrl": "https://picsum.photos/id/237/600/750",
+      "createdAt": "42분 전",
+      "likesCount": 9416,
+      "caption": "1만 평짜리 카페가 열렸다고? 코엑스 공식 계정입니다.",
+      "isLiked": true
+    },
+    {
+      "id": 2,
+      "author": {
+        "username": "kbsnews",
+        "profileImageUrl": "https://randomuser.me/api/portraits/men/32.jpg"
+      },
+      "mediaUrl": "https://picsum.photos/id/10/600/750",
+      "createdAt": "2주 전",
+      "likesCount": 7000,
+      "caption": "뉴스 속보입니다. 통장 묶기 수법 주의.",
+      "isLiked": false
+    }
+  ]
+}

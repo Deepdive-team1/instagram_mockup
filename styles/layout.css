@@ -1,0 +1,111 @@
+/* styles/layout.css */
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-primary);
+    font-family: var(--font-family);
+    overflow-x: hidden;
+}
+
+.main-content-wrapper {
+    display: flex;
+    flex-direction: column; /* responsive: 세로 배치 */
+    min-height: 100vh;
+    
+    /* ⚠️ [핵심 수정] responsive에서 자식들(피드)을 무조건 가운데로 모음 */
+    align-items: center; 
+}
+
+/* 데스크탑 레이아웃 (768px 이상) */
+@media (min-width: 768px) {
+    .main-content-wrapper {
+        flex-direction: row; /* 가로 배치 */
+        
+        /* 데스크탑에선 상단 정렬로 변경 (피드 내용이 길어지므로) */
+        align-items: flex-start; 
+        
+        /* 좌우 중앙 정렬 */
+        justify-content: center; 
+        
+        /* 사이드바 너비만큼 공간 밀기 */
+        padding-left: var(--sidebar-width); 
+        
+        /* 피드와 추천바 사이 간격 */
+        gap: 30px; 
+    }
+}
+
+/* 피드 영역 래퍼 */
+.feed-wrapper {
+    width: 100%;
+    max-width: var(--feed-width); /* 470px 제한 */
+    
+    /* responsive 중앙 정렬 이중 안전장치 */
+    margin: 0 auto; 
+    padding-bottom: 60px;
+}
+
+@media (min-width: 768px) {
+    .feed-wrapper {
+        margin-top: 30px;
+        /* 데스크탑에선 Flexbox가 정렬하므로 마진 초기화 */
+        margin-left: 0; 
+        margin-right: 0;
+        padding-bottom: 0;
+    }
+}
+
+/* --- responsive 헤더 스타일 --- */
+
+/* 기본적으로는 숨김 (PC 기준) */
+.responsive-header {
+    display: none; 
+}
+
+/* 화면이 좁아지면(responsive) 등장 */
+@media (max-width: 768px) {
+    .responsive-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+        position: sticky; /* 스크롤 내려도 상단 고정 */
+        top: 0;
+        z-index: 1000; /* 다른 요소보다 위에 */
+        
+        background-color: white;
+        height: 60px;
+        padding: 0 16px;
+        border-bottom: 1px solid #dbdbdb;
+    }
+
+    .responsive-header__logo img {
+        height: 28px; /* 로고 크기 적절히 조절 */
+        margin-top: 5px;
+        cursor: pointer;
+    }
+
+    .responsive-header__icons {
+        display: flex;
+        gap: 20px; /* 아이콘 사이 간격 */
+    }
+
+    .responsive-header__icons .icon-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        font-size: 24px; /* 아이콘 크기 */
+        color: #262626;
+    }
+
+    /* responsive에서는 사이드바 숨기기 (혹시 안 되어 있다면 추가) */
+    #sidebar-container {
+        display: none !important;
+    }
+    
+    /* responsive에서 스토리/피드 상단 여백 제거 (헤더가 sticky라 필요할 수 있음) */
+    .story-wrapper {
+        margin-top: 10px;
+    }
+}
