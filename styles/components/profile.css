@@ -1,0 +1,232 @@
+/* =========================================
+   1. 프로필 메인 레이아웃
+   ========================================= */
+.profile-container {
+    max-width: 935px;
+    margin: 0 auto;
+    padding: 0; /* 상단바 sticky를 위해 패딩 초기화 */
+    color: #363636;
+    background-color: #ffffff;
+    min-height: 100vh; /* 화면 꽉 차게 */
+}
+
+/* =========================================
+   2. [수정됨] 상단 뒤로가기 네비게이션 (Sticky)
+   ========================================= */
+.profile-top-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    /* 크기 및 여백 */
+    height: 60px; /* 높이 고정으로 레이아웃 안정화 */
+    padding: 0 16px;
+    
+    /* 디자인 */
+    border-bottom: 1px solid #dbdbdb;
+    background-color: #ffffff; /* ★ 배경 흰색 (투명X) */
+    
+    /* ★ 화면 상단 고정 핵심 코드 */
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* 다른 요소보다 위에 뜨도록 */
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn i {
+    font-size: 1.5rem;
+    color: #262626; /* 아이콘 검은색 */
+}
+
+.nav-username {
+    font-weight: 600;
+    font-size: 17px;
+    color: #262626;
+}
+
+/* =========================================
+   3. 프로필 정보 (헤더)
+   ========================================= */
+.profile-header {
+    display: flex;
+    padding: 30px 20px 0; /* 네비게이션 아래 여백 */
+    margin-bottom: 44px;
+}
+
+.profile-avatar-wrapper {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    margin-right: 30px;
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #dbdbdb; /* 테두리 살짝 추가 */
+}
+
+.profile-info {
+    flex-grow: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.profile-name-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-username {
+    font-size: 28px; /* 닉네임 조금 더 키움 */
+    font-weight: 300;
+    margin-right: 20px;
+}
+
+.profile-edit-btn {
+    background-color: #0095f6;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 3%;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.profile-stats {
+    display: flex;
+    list-style: none;
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+.profile-stats li {
+    margin-right: 40px;
+    font-size: 16px;
+}
+
+.stat-bold {
+    font-weight: 600;
+}
+
+.profile-bio .bio-name {
+    font-weight: 600;
+    display: block;
+}
+
+/* =========================================
+   4. 탭 메뉴
+   ========================================= */
+.profile-tabs {
+    border-top: 1px solid #dbdbdb;
+    color: #8e8e8e;
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+}
+
+.tab-item {
+    height: 52px;
+    cursor: pointer;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: #8e8e8e;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: -1px; /* 선 위로 올리기 */
+}
+
+.tab-item.active {
+    border-top: 1px solid #262626;
+    color: #262626;
+}
+
+/* =========================================
+   5. 갤러리 그리드
+   ========================================= */
+.profile-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px; /* 사진 사이 간격 */
+    padding-bottom: 50px;
+}
+
+.gallery-item {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%; /* 1:1 비율 정사각형 유지 */
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #efefef; /* 로딩 전 회색 배경 */
+}
+
+.gallery-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* =========================================
+   6. 반응형 (모바일)
+   ========================================= */
+@media (max-width: 735px) {
+    .profile-header {
+        flex-direction: column;
+        padding: 20px 20px 0; /* 모바일 패딩 조정 */
+    }
+    
+    .profile-avatar-wrapper {
+        margin-right: 0;
+        margin-bottom: 20px;
+        justify-content: flex-start;
+    }
+    
+    .profile-avatar {
+        width: 77px;
+        height: 77px;
+    }
+    
+    .profile-username {
+        font-size: 20px;
+    }
+
+    .profile-gallery {
+        gap: 3px;
+    }
+}
+/* 프로필 하이라이트 스토리 영역 */
+.profile-stories-area {
+    margin-bottom: 20px; /* 탭과의 간격 */
+    padding: 0 10px;     /* 좌우 여백 */
+    overflow: hidden;    /* 넘치는 부분 숨김 */
+}
+
+/* 스토리 아이템들이 가로로 나열되도록 */
+#profile-story-container {
+    display: flex;
+    gap: 15px;           /* 아이템 사이 간격 */
+    overflow-x: auto;    /* 가로 스크롤 허용 */
+    padding-bottom: 5px; /* 스크롤바 공간 확보 */
+}
+
+/* 스크롤바 숨기기 (크롬, 사파리 등) */
+#profile-story-container::-webkit-scrollbar {
+    display: none;
+}

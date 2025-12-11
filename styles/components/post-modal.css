@@ -1,13 +1,159 @@
-.post-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 2000; align-items: center; justify-content: center; }
-.post-modal--active { display: flex; }
-.post-modal__close-button { position: absolute; top: 20px; right: 20px; color: white; font-size: 30px; z-index: 2100; }
-.post-modal__inner { display: flex; background: white; width: 90%; max-width: 1000px; height: 85vh; border-radius: 4px; overflow: hidden; }
-.post-modal__media-area { flex: 1.5; background: black; display: flex; align-items: center; justify-content: center; }
-.post-modal__media-area img { max-width: 100%; max-height: 100%; object-fit: contain; }
-.post-modal__sidebar { flex: 1; display: flex; flex-direction: column; border-left: 1px solid var(--color-border); }
-.post-modal__header { padding: 15px; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; font-weight: 600; }
-.post-modal__header img { width: 32px; height: 32px; border-radius: 50%; margin-right: 10px; }
-.post-modal__body { padding: 15px; overflow-y: auto; }
-.post-modal__caption-row { display: flex; margin-bottom: 15px; font-size: 14px; }
-.small-profile { width: 32px; height: 32px; border-radius: 50%; margin-right: 10px; }
-@media (max-width: 768px) { .post-modal__inner { flex-direction: column; height: auto; max-height: 90vh; } .post-modal__sidebar { display: none; /* 모바일 약식 */ } }
+/* --------------------------------------------------------------------
+   [Post Modal] 게시물 상세 모달 스타일
+   - 배경(Backdrop)과 내부 박스(Inner), 좌우 분할 레이아웃(Media/Sidebar)
+   -------------------------------------------------------------------- */
+
+/* 1. 배경 (어두운 막) */
+/* 주의: JS에서 id="post-modal-backdrop"으로 제어하므로 class 이름 일치 확인 */
+.post-modal-backdrop {
+    position: fixed;
+    inset: 0; /* top:0, left:0, right:0, bottom:0 */
+    width: 100vw; 
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.65); /* 인스타 스타일 진한 배경 */
+    z-index: 9999;
+    
+    /* 중앙 정렬 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 2. 닫기 버튼 (우측 상단) */
+.post-modal__close-button {
+    position: absolute;
+    top: 20px; 
+    right: 20px;
+    background: none; 
+    border: none;
+    color: white; 
+    font-size: 30px;
+    cursor: pointer; 
+    z-index: 10001;
+}
+
+/* 3. 모달 내부 박스 (하얀색 컨테이너) */
+.post-modal__inner {
+    background-color: white;
+    width: 90%; 
+    max-width: 1100px;
+    height: 90vh; 
+    max-height: 600px;
+    
+    /* ★ 좌우 배치의 핵심 (Flex) */
+    display: flex;       
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* 4. [왼쪽] 미디어(이미지) 영역 */
+.post-modal__media-area {
+    flex: 1.5; /* 비율 1.5 (사진 강조) */
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.post-modal__media-area img {
+    width: 100%; 
+    height: 100%;
+    object-fit: contain; /* 사진 잘리지 않고 비율 유지하며 다 보여주기 */
+}
+
+/* 5. [오른쪽] 사이드바 (정보 영역) */
+.post-modal__sidebar {
+    flex: 1; /* 비율 1 */
+    background-color: white;
+    display: flex;
+    flex-direction: column; /* 위에서 아래로 배치 */
+    min-width: 350px; /* 너무 좁아지지 않게 최소 너비 설정 */
+    border-left: 1px solid #efefef;
+}
+
+/* 5-1. 헤더 (작성자 프로필) */
+.post-modal__header {
+    padding: 14px;
+    border-bottom: 1px solid #efefef;
+    display: flex; 
+    align-items: center;
+    font-weight: 600;
+}
+
+.post-modal__header img.modal-profile-img {
+    width: 32px; 
+    height: 32px;
+    border-radius: 50%; 
+    margin-right: 10px;
+    border: 1px solid #efefef;
+    object-fit: cover;
+}
+
+/* 5-2. 본문 및 댓글 영역 (스크롤 가능) */
+.post-modal__body {
+    padding: 16px;
+    flex: 1; /* 남은 높이 모두 차지 */
+    overflow-y: auto; /* 내용 넘치면 스크롤 */
+}
+
+/* 캡션(본문) 한 줄 레이아웃 */
+.post-modal__caption-row {
+    display: flex;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+/* 작은 프로필 사진 공통 스타일 */
+.small-profile {
+    width: 32px; 
+    height: 32px; 
+    border-radius: 50%; 
+    margin-right: 12px;
+    object-fit: cover;
+    flex-shrink: 0; /* 찌그러짐 방지 */
+}
+
+.caption-text-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.post-modal__username {
+    font-weight: 600; 
+    margin-right: 5px;
+}
+
+/* 5-3. 푸터 (좋아요, 아이콘 등) */
+.post-modal__footer {
+    margin-top: auto; 
+    padding: 15px; 
+    border-top: 1px solid #efefef;
+    background-color: white;
+}
+
+/* --- 반응형 (모바일) --- */
+@media (max-width: 768px) {
+    .post-modal__inner {
+        flex-direction: column; /* 세로 배치로 변경 */
+        width: 100%; 
+        height: 100%; 
+        border-radius: 0;
+        max-height: none;
+    }
+
+    .post-modal__media-area {
+        flex: none; /* 비율 무시 */
+        height: 50vh; /* 화면 절반 높이 */
+    }
+
+    .post-modal__sidebar {
+        flex: 1; /* 나머지 절반 */
+        display: flex; /* 모바일에서도 보이게 유지 */
+    }
+
+    .post-modal__close-button {
+        top: 10px; 
+        right: 10px; 
+        filter: drop-shadow(0 0 2px rgba(0,0,0,0.5)); /* 흰 버튼이 사진 위에서도 잘 보이게 그림자 추가 */
+    }
+}

@@ -1,22 +1,40 @@
-<button class="post-modal__close-button"><i class="bi bi-x-lg"></i></button>
-<div class="post-modal__inner">
-    <div class="post-modal__media-area">
-        <img src="{{mediaUrl}}" alt="modal content">
-    </div>
-    <div class="post-modal__sidebar">
-        <header class="post-modal__header">
-            <img src="{{author.profileImageUrl}}" alt="profile">
-            <span class="post-modal__username">{{author.username}}</span>
-        </header>
-        <div class="post-modal__body">
-            <div class="post-modal__caption-row">
-                <img src="{{author.profileImageUrl}}" alt="profile" class="small-profile">
-                <div>
-                    <span class="post-modal__username">{{author.username}}</span>
-                    <span>{{caption}}</span>
+<div id="post-modal-backdrop" class="post-modal-backdrop" style="display: none;">
+    
+    <button class="post-modal__close-button" id="modal-close-btn">
+        <i class="bi bi-x-lg"></i>
+    </button>
+
+    <div class="post-modal__inner">
+        <div class="post-modal__media-area">
+            <img class="modal-main-img" src="" alt="modal content">
+        </div>
+        
+        <div class="post-modal__sidebar">
+            <header class="post-modal__header">
+                <img class="modal-profile-img" src="" alt="profile">
+                <span class="post-modal__username modal-username-text"></span>
+            </header>
+            
+            <div class="post-modal__body">
+                <div class="post-modal__caption-row">
+                    <img class="modal-profile-img small-profile" src="" alt="profile">
+                    <div class="caption-text-box">
+                        <span class="post-modal__username modal-username-text"></span>
+                        <span class="modal-caption-text"></span>
+                        <div class="modal-time-text" style="color:gray; font-size:12px; margin-top:4px;"></div>
+                    </div>
                 </div>
+                <p style="color:gray; margin-top:20px; font-size:12px;">댓글 기능은 준비 중입니다...</p>
             </div>
-            <p style="color:gray; margin-top:20px; font-size:12px;">댓글 기능은 준비 중입니다...</p>
+
+            <div class="post-modal__footer" style="margin-top: auto; padding: 15px; border-top: 1px solid #efefef;">
+                 <div style="font-size: 24px; display: flex; gap: 16px;">
+                    <i class="bi bi-heart"></i>
+                    <i class="bi bi-chat"></i>
+                    <i class="bi bi-send"></i>
+                 </div>
+                 <div class="modal-likes-count" style="font-weight: 600; font-size: 14px; margin-top: 10px;"></div>
+            </div>
         </div>
     </div>
 </div>

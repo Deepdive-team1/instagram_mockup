@@ -1,0 +1,263 @@
+/* styles/myprofile.css */
+
+/* 1. 전체 레이아웃 */
+.my-profile-wrapper {
+    max-width: 935px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #262626;
+}
+
+/* 2. 프로필 헤더 (상단 정보 영역) */
+.profile-header {
+    display: flex;
+    margin-bottom: 44px;
+    align-items: flex-start;
+}
+
+/* 왼쪽: 프로필 사진 */
+.profile-image-section {
+    flex-grow: 1;
+    margin-right: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.profile-image-container {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden; /* 이미지가 원 밖으로 넘치지 않게 */
+    border: 1px solid #dbdbdb;
+}
+
+.profile-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 오른쪽: 텍스트 정보 */
+.profile-info-section {
+    flex-grow: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 아이디 + 버튼 줄 */
+.info-top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.username {
+    font-size: 28px;
+    font-weight: 300;
+    margin-right: 20px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-secondary {
+    background-color: #efefef;
+    border: none;
+    border-radius: 8px;
+    padding: 7px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background-color: #dbdbdb;
+}
+
+.settings-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+/* 팔로워 카운트 줄 */
+.info-stats {
+    display: flex;
+    margin-bottom: 20px;
+    font-size: 16px;
+    list-style: none;
+}
+
+.info-stats span {
+    margin-right: 40px;
+}
+
+.info-stats strong {
+    font-weight: 600;
+}
+
+/* 이름 및 소개글 */
+.info-bio .realname {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.info-bio .bio-text {
+    font-size: 14px;
+    white-space: pre-wrap; /* 줄바꿈 적용 */
+    line-height: 1.5;
+}
+
+/* 3. 하이라이트 (동그라미들) */
+.highlights-section {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 44px;
+    padding-left: 10px; /* 약간의 여백 */
+}
+
+.highlight-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    width: 80px;
+}
+
+.highlight-circle {
+    width: 77px;
+    height: 77px;
+    border-radius: 50%;
+    border: 1px solid #dbdbdb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.highlight-circle.plus-icon {
+    border: 1px solid #c7c7c7;
+    background-color: #fafafa;
+}
+
+.highlight-circle i {
+    font-size: 40px;
+    color: #c7c7c7;
+}
+
+.highlight-name {
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* 4. 탭 메뉴 (게시물, 저장됨, 태그됨) */
+.profile-tabs {
+    border-top: 1px solid #dbdbdb;
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+}
+
+.tab-item {
+    height: 52px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: #8e8e8e;
+    letter-spacing: 1px;
+    cursor: pointer;
+    text-transform: uppercase;
+    margin-top: -1px; /* border 위로 올리기 */
+}
+
+.tab-item.active {
+    border-top: 1px solid #262626;
+    color: #262626;
+}
+
+.tab-item i {
+    font-size: 12px;
+    margin-right: 6px;
+}
+
+/* 5. 콘텐츠 영역 (게시물 없음 상태 - 카메라 아이콘) */
+.profile-content.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.camera-icon-circle {
+    width: 62px;
+    height: 62px;
+    border: 2px solid #262626;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.camera-icon-circle i {
+    font-size: 30px;
+}
+
+.empty-state h1 {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.empty-state p {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.first-post-link {
+    color: #0095f6;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.first-post-link:hover {
+    color: #00376b;
+}
+
+/* 반응형 (모바일) */
+@media (max-width: 735px) {
+    .profile-header {
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+    
+    .profile-image-section {
+        margin-right: 0;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .profile-info-section {
+        width: 100%;
+    }
+
+    .info-top, .info-stats, .info-bio {
+        padding: 0 20px;
+    }
+    
+    .profile-tabs {
+        gap: 20px;
+    }
+}

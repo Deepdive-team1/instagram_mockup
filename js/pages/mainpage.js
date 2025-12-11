@@ -1,30 +1,39 @@
 import { loadComponent } from '../utils/util-dom-loader.js';
 import { openPostModal } from '../components/modal-controller.js';
 
+let isFetching = false;
+
+// 1. 초기화
 export async function initMainPage() {
-    // 1. 뼈대 컴포넌트 로드
     await Promise.all([
         loadComponent('./components/responsive-header.html', 'responsive-header-container'),
         loadComponent('./components/sidebar.html', 'sidebar-container'),
         loadComponent('./components/recommended-users.html', 'recommended-users-container'),
-        loadComponent('./components/footer-nav.html', 'footer-nav-container')
-    ]);
-
-    // 2. 초기 홈 화면 렌더링
+        loadComponent('./components/footer-nav.html', 'footer-nav-container'),
+        loadComponent('./components/post-modal.html', 'modal-root')
+    ]); 
+    
     await restoreHomePage();
-
-    // 3. 기능 연결
-    setupResponsiveHeader(); // 모바일 헤더 하트 버튼
-    setupNavigationEvents(); // ★ 홈 버튼 + 로고 버튼 연결 (이제 함수가 있어서 작동함!)
+    setupResponsiveHeader();
+    setupNavigationEvents();
+    window.addEventListener('scroll', handleInfiniteScroll);
 }
 
-/**
- * [Home Restore] 메인 컨텐츠(스토리+피드)를 다시 그리는 함수
- */
+// 2. 무한 스크롤 핸들러
+function handleInfiniteScroll() {
+    // 프로필 페이지가 떠있을 땐 무한 스크롤 중단
+    const isProfilePage = document.querySelector('.profile-container') || document.querySelector('.my-profile-wrapper');
+    
+    if (!isProfilePage) {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+            renderFeed(true);
+        }
+    }
+}
+
+// 3. 홈 화면 복구 (뒤로 가기 시 호출됨)
 async function restoreHomePage() {
     const mainContainer = document.querySelector('main');
-    
-    // HTML 구조 초기화
     mainContainer.innerHTML = `
         <div class="story-wrapper">
             <button id="prevBtn" class="nav-btn prev-btn"><</button>
@@ -34,57 +43,130 @@ async function restoreHomePage() {
         <div id="post-card-container" class="post-card-container"></div>
     `;
 
-    // 데이터 다시 로드
-    await Promise.all([
-        renderStories(),
-        renderFeed()
-    ]);
-
-    // 스토리 스크롤 재연결
+    // 피드와 스토리를 다시 불러옵니다
+    await Promise.all([renderStories(), renderFeed(false)]);
     setupStoryNavigation();
 }
 
 /**
- * [Navigation] 홈 버튼 & 로고 클릭 이벤트 처리
- * ★ 아까 빠져있던 함수입니다. 오타 수정된 ID를 적용했습니다.
+ * ★ [내 프로필] 로드 함수 (myprofile)
  */
-function setupNavigationEvents() {
-    // 1. 홈 버튼들 (사이드바 + 하단바)
-    const homeBtns = document.querySelectorAll('#nav-home-btn');
+async function loadMyProfilePage() {
+    const mainContainer = document.querySelector('main');
     
-    // 2. 로고 버튼들 찾기
-    // ★ 오타 수정된 ID 반영: responsive-logo-btn
-    // (혹시 몰라 클래스 이름으로도 찾게 2중 안전장치를 걸었습니다)
-    const mobileLogo = document.getElementById('responsive-logo-btn') || document.querySelector('.responsive-header__logo');
-    const sidebarLogo = document.getElementById('sidebar-logo-btn') || document.querySelector('.sidebar__logo');
+    try {
+        // 1. HTML 가져오기
+        const res = await fetch('./components/myprofile.html');
+        if(!res.ok) throw new Error("myprofile.html 로드 실패");
+        const html = await res.text();
+        
+        mainContainer.innerHTML = html;
+        window.scrollTo(0,0);
 
-    // 공통 동작: 홈 복구 + 스크롤 최상단 이동
-    const goHome = async () => {
-        await restoreHomePage();
-        window.scrollTo(0, 0);
-    };
+        // 2. CSS 동적 로드 (styles/myprofile.css)
+        if (!document.getElementById('myprofile-css')) {
+            const link = document.createElement('link');
+            link.id = 'myprofile-css';
+            link.rel = 'stylesheet';
+            link.href = './styles/myprofile.css'; 
+            document.head.appendChild(link);
+        }
 
-    // 이벤트 연결
-    homeBtns.forEach(btn => {
-        btn.style.cursor = 'pointer';
-        btn.addEventListener('click', goHome);
-    });
-    
-    if (mobileLogo) {
-        mobileLogo.style.cursor = 'pointer';
-        mobileLogo.addEventListener('click', goHome);
-    }
+        // 3. JS 동적 로드
+        try {
+            const module = await import('../components/myprofile.js');
+            if (module && module.initMyProfile) {
+                module.initMyProfile(); 
+            }
+        } catch (jsError) {
+            console.warn("myprofile.js 로드 실패:", jsError);
+        }
 
-    if (sidebarLogo) {
-        sidebarLogo.style.cursor = 'pointer';
-        sidebarLogo.addEventListener('click', goHome);
+    } catch(e) {
+        alert("내 프로필 로딩 실패: " + e.message);
     }
 }
 
-// -----------------------------------------------------------
-// [기존 렌더링 함수들]
-// -----------------------------------------------------------
+/**
+ * ★ [남의 프로필] 로드 함수 (profile)
+ * - 여기서도 CSS 경로를 확실하게 잡아줘야 화면이 안 날라갑니다!
+ */
+async function loadUserProfile(userData) {
+    const mainContainer = document.querySelector('main');
+    
+    try {
+        // 1. HTML 가져오기
+        const res = await fetch('./components/profile.html');
+        if (!res.ok) throw new Error("profile.html 로드 실패");
+        
+        const html = await res.text();
+        mainContainer.innerHTML = html; 
+        window.scrollTo(0, 0); 
 
+        // 2. ★ CSS 동적 로드 (여기가 중요!) ★
+        // 아까 말씀하신 styles/components/profile.css 경로를 여기에도 적용합니다.
+        if (!document.getElementById('other-profile-css')) {
+            const link = document.createElement('link');
+            link.id = 'other-profile-css';
+            link.rel = 'stylesheet';
+            link.href = './styles/components/profile.css'; // 경로 확인해주세요!
+            document.head.appendChild(link);
+        }
+
+        // 3. 데이터 바인딩 (기존 로직 복구)
+        const setText = (id, text) => { const el = document.getElementById(id); if(el) el.textContent = text; };
+        const setImg = (id, src) => { const el = document.getElementById(id); if(el) el.src = src; };
+
+        setImg('p-avatar', userData.userImage);
+        setText('p-username', userData.username);
+        setText('p-realname', userData.username);
+        setText('p-nav-username', userData.username);
+        setText('p-posts-count', Math.floor(Math.random() * 50) + 10);
+        setText('p-followers', Math.floor(Math.random() * 5000) + 100);
+        setText('p-following', Math.floor(Math.random() * 500) + 10);
+
+        const backBtn = document.getElementById('profile-back-btn');
+        if (backBtn) backBtn.onclick = () => restoreHomePage();
+
+        // 하이라이트 스토리
+        const storyContainer = document.getElementById('profile-story-container');
+        if (storyContainer) {
+            const storyRes = await fetch('./components/story-item.html');
+            const storyTemplate = await storyRes.text();
+            for(let i=1; i<=5; i++) {
+                let sHtml = storyTemplate;
+                sHtml = sHtml.replace(/{{profileImageUrl}}/g, `https://picsum.photos/200/200?random=${i*500}`)
+                             .replace(/{{username}}/g, i === 1 ? '신규' : `하이라이트 ${i-1}`);
+                storyContainer.insertAdjacentHTML('beforeend', sHtml);
+            }
+        }
+
+        // 갤러리
+        const gallery = document.getElementById('p-gallery');
+        if (gallery) {
+            for(let i=0; i<9; i++) {
+                const postImgUrl = `https://picsum.photos/600/600?random=${Date.now()+i}`;
+                const div = document.createElement('div');
+                div.className = 'gallery-item';
+                div.innerHTML = `<img src="${postImgUrl}" alt="post">`;
+                div.onclick = () => openPostModal({
+                    ...userData, 
+                    postImage: postImgUrl,
+                    caption: '프로필 갤러리 게시물',
+                    likes: 123,
+                    time: '1일 전'
+                });
+                gallery.appendChild(div);
+            }
+        }
+
+    } catch (e) {
+        console.error("Profile Load Failed", e);
+    }
+}
+
+
+// 4. 스토리 렌더링
 async function renderStories() {
     const container = document.getElementById('story-item-container');
     if (!container) return;
@@ -96,117 +178,157 @@ async function renderStories() {
         userData.results.forEach(user => {
             let html = template;
             html = html.replace(/{{profileImageUrl}}/g, user.picture.medium)
-                       .replace(/{{username}}/g, user.login.username);
-            container.insertAdjacentHTML('beforeend', html);
+                        .replace(/{{username}}/g, user.login.username);
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            
+            const storyEl = tempDiv.firstElementChild;
+            storyEl.addEventListener('click', () => loadUserProfile({
+                username: user.login.username,
+                userImage: user.picture.medium
+            }));
+            
+            container.appendChild(storyEl);
         });
-    } catch (error) { console.error("Story Load Error:", error); }
+    } catch (error) { console.error(error); }
 }
 
-async function renderFeed() {
+// 5. 피드 렌더링
+async function renderFeed(isAppend = false) {
+    if (isFetching) return;
+    isFetching = true;
     const container = document.getElementById('post-card-container');
-    if (!container) return;
+    if (!container) { isFetching = false; return; }
+
     try {
         const [userRes, templateRes] = await Promise.all([
-            fetch('https://randomuser.me/api/?results=5'),
+            fetch('https://randomuser.me/api/?results=10'), 
             fetch('./components/post-card.html')
         ]);
         const userData = await userRes.json();
         const template = await templateRes.text();
+        
+        if (!isAppend) container.innerHTML = '';
+
         userData.results.forEach((user, index) => {
+            const uniqueId = Date.now() + index; 
+            const postData = {
+                id: uniqueId,
+                username: user.login.username,
+                userImage: user.picture.medium,
+                postImage: `https://picsum.photos/600/750?random=${uniqueId}`,
+                likes: Math.floor(Math.random() * 2000) + 100,
+                caption: `오늘의 기록! ${user.location.city}`,
+                time: `3시간 전`
+            };
+
             let html = template;
-            const postId = index + 1;
-            const randomLikes = Math.floor(Math.random() * 2000) + 100;
-            const randomImage = `https://picsum.photos/600/750?random=${postId}`; 
-            
-            html = html.replace(/{{author.profileImageUrl}}/g, user.picture.medium)
-                       .replace(/{{author.username}}/g, user.login.username)
-                       .replace(/{{mediaUrl}}/g, randomImage)
-                       .replace(/{{likesCount}}/g, randomLikes)
-                       .replace(/{{createdAt}}/g, `${index + 1}시간 전`)
-                       .replace(/{{caption}}/g, `오늘의 사진! ${user.location.city}에서. #daily`);
+            html = html.replace(/{{author.profileImageUrl}}/g, postData.userImage)
+                        .replace(/{{author.username}}/g, postData.username)
+                        .replace(/{{mediaUrl}}/g, postData.postImage)
+                        .replace(/{{likesCount}}/g, postData.likes)
+                        .replace(/{{createdAt}}/g, postData.time)
+                        .replace(/{{caption}}/g, postData.caption);
 
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = html;
             const postElement = tempDiv.firstElementChild;
-            postElement.dataset.postId = postId;
 
-            postElement.addEventListener('click', (e) => {
-                if (!e.target.closest('.post-card__icon-bar')) {
-                    openPostModal(postId); 
-                }
+            const imgArea = postElement.querySelector('.post-image') || postElement.querySelector('img[alt="post content"]');
+            if (imgArea) {
+                imgArea.style.cursor = 'pointer';
+                imgArea.addEventListener('click', () => openPostModal(postData));
+            }
+
+            const profileLinks = postElement.querySelectorAll('.profile-pic, .username');
+            profileLinks.forEach(el => {
+                el.style.cursor = 'pointer';
+                el.addEventListener('click', (e) => {
+                    e.stopPropagation(); 
+                    loadUserProfile(postData);
+                });
             });
 
-            const likeBtn = postElement.querySelector('.post-card__like-button');
-            if (likeBtn) likeBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                likeBtn.classList.toggle('active');
-                const icon = likeBtn.querySelector('i');
-                if (likeBtn.classList.contains('active')) {
-                    icon.classList.replace('bi-heart', 'bi-heart-fill');
-                    icon.style.color = 'red';
-                } else {
-                    icon.classList.replace('bi-heart-fill', 'bi-heart');
-                    icon.style.color = 'inherit';
-                }
-            });
-
-            const saveBtn = postElement.querySelector('.post-card__save-button');
-            if (saveBtn) saveBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                saveBtn.classList.toggle('active');
-                const icon = saveBtn.querySelector('i');
-                if (saveBtn.classList.contains('active')) {
-                    icon.classList.replace('bi-bookmark', 'bi-bookmark-fill');
-                } else {
-                    icon.classList.replace('bi-bookmark-fill', 'bi-bookmark');
-                }
-            });
-
+            setupPostButtons(postElement);
             container.appendChild(postElement);
         });
-    } catch (error) { console.error("Feed Render Error:", error); }
+    } catch (e) { console.error(e); } 
+    finally { isFetching = false; }
 }
 
+// 버튼 이벤트 분리
+function setupPostButtons(el) {
+    const likeBtn = el.querySelector('.post-card__like-button');
+    if(likeBtn) likeBtn.onclick = (e) => {
+        e.stopPropagation();
+        likeBtn.classList.toggle('active');
+        const i = likeBtn.querySelector('i');
+        if(i) {
+            i.className = likeBtn.classList.contains('active') ? 'bi bi-heart-fill' : 'bi bi-heart';
+            i.style.color = likeBtn.classList.contains('active') ? 'red' : 'inherit';
+        }
+    }
+
+    const saveBtn = el.querySelector('.post-card__save-button');
+    if (saveBtn) {
+        saveBtn.onclick = (e) => {
+            e.stopPropagation(); 
+            saveBtn.classList.toggle('active');
+            const i = saveBtn.querySelector('i');
+            if (i) {
+                i.className = saveBtn.classList.contains('active') ? 'bi bi-bookmark-fill' : 'bi bi-bookmark';
+            }
+        };
+    }
+}
+
+// ★ 네비게이션 설정 (이벤트 위임)
+function setupNavigationEvents() {
+    document.body.addEventListener('click', async (e) => {
+        
+        // 1. 내 프로필 버튼
+        const profileBtn = e.target.closest('#nav-profile-btn');
+        if (profileBtn) {
+            e.preventDefault(); 
+            console.log("내 프로필 이동");
+            await loadMyProfilePage();
+            return;
+        }
+
+        // 2. 홈 버튼
+        const homeBtn = e.target.closest('#nav-home-btn, .responsive-header__logo, .sidebar__logo');
+        if (homeBtn) {
+            e.preventDefault(); 
+            console.log("홈으로 이동");
+            await restoreHomePage();
+            window.scrollTo(0, 0);
+            return;
+        }
+    });
+}
+
+// 스토리 스크롤
 function setupStoryNavigation() {
-    const storyContainer = document.getElementById('story-item-container');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    if (!storyContainer || !prevBtn || !nextBtn) return;
-    const handleButtonVisibility = () => {
-        const scrollLeft = storyContainer.scrollLeft;
-        const maxScrollLeft = storyContainer.scrollWidth - storyContainer.clientWidth;
-        prevBtn.style.display = scrollLeft <= 2 ? 'none' : 'flex'; 
-        nextBtn.style.display = scrollLeft >= maxScrollLeft - 2 ? 'none' : 'flex';
-    };
-    prevBtn.addEventListener('click', () => {
-        storyContainer.scrollBy({ left: -storyContainer.clientWidth, behavior: 'smooth' });
-    });
-    nextBtn.addEventListener('click', () => {
-        storyContainer.scrollBy({ left: storyContainer.clientWidth, behavior: 'smooth' });
-    });
-    storyContainer.addEventListener('scroll', handleButtonVisibility);
-    setTimeout(handleButtonVisibility, 200);
+    const c = document.getElementById('story-item-container');
+    const p = document.getElementById('prevBtn');
+    const n = document.getElementById('nextBtn');
+    if(!c) return;
+    if(p) p.onclick = () => c.scrollBy({left: -c.clientWidth, behavior:'smooth'});
+    if(n) n.onclick = () => c.scrollBy({left: c.clientWidth, behavior:'smooth'});
 }
 
-function setupResponsiveHeader() {
+// 반응형 헤더
+function setupResponsiveHeader() { 
     const heartBtn = document.getElementById('responsive-heart-btn');
     if (!heartBtn) return; 
     heartBtn.addEventListener('click', async () => {
-        const icon = heartBtn.querySelector('i');
-        if (icon) {
-            icon.classList.replace('bi-heart', 'bi-heart-fill');
-            icon.style.color = 'black'; 
-        }
         const mainContainer = document.querySelector('main');
         if(mainContainer) {
             try {
                 const res = await fetch('./components/activity.html'); 
                 if(res.ok) {
-                    const html = await res.text();
-                    mainContainer.innerHTML = html; 
+                    mainContainer.innerHTML = await res.text(); 
                     window.scrollTo(0, 0);
-                } else {
-                    mainContainer.innerHTML = `<div style="padding:20px;text-align:center;"><h2>알림</h2><p>activity.html 없음</p></div>`;
                 }
             } catch (e) { console.error(e); }
         }

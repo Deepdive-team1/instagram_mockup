@@ -109,3 +109,27 @@ body {
         margin-top: 10px;
     }
 }
+/* 사이드바 프로필 사진 크기 및 정렬 수정 */
+.sidebar-link .sidebar-avatar {
+    width: 24px;   /* 다른 아이콘과 동일한 너비 */
+    height: 24px;  /* 다른 아이콘과 동일한 높이 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;     /* 불필요한 여백 제거 */
+}
+
+.sidebar-link .profile-pic-small {
+    width: 24px !important;  /* 강제 적용 */
+    height: 24px !important; /* 강제 적용 */
+    border-radius: 50%;      /* 동그라미 유지 */
+    object-fit: cover;       /* 비율 유지하며 꽉 채우기 */
+    display: block;
+}
+
+/* 선택사항: 혹시 아이콘과 텍스트 사이 간격이 안 맞으면 조정 */
+.sidebar-item .sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 16px; /* 아이콘과 글자 사이 간격 (필요시 조정) */
+}

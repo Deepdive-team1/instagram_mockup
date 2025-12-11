@@ -1,61 +1,51 @@
-// 모달 열기/닫기 및 데이터 바인딩 담당
-export async function openPostModal(postId) {
-    const modal = document.getElementById('post-detail-modal');
-    const contentWrapper = document.getElementById('post-modal-content-wrapper');
+/**
+ * [Modal Controller]
+ * 클릭한 게시물의 데이터를 받아서 모달에 표시
+ */
+export function openPostModal(postData) {
+    const modal = document.getElementById('post-modal-backdrop');
+    const closeBtn = document.getElementById('modal-close-btn');
+
+    if (!modal) return;
+
+    // 1. 데이터 주입 (제공해주신 클래스명 기준)
     
-    if (!modal || !contentWrapper) return;
+    // 메인 이미지
+    const mainImg = modal.querySelector('.modal-main-img');
+    if(mainImg) mainImg.src = postData.postImage;
 
-    // 1. 모달 표시 (로딩 중)
-    modal.classList.add('post-modal--active');
+    // 프로필 이미지들 (헤더 + 본문)
+    const profileImgs = modal.querySelectorAll('.modal-profile-img');
+    profileImgs.forEach(img => img.src = postData.userImage);
+
+    // 유저네임들
+    const usernames = modal.querySelectorAll('.modal-username-text');
+    usernames.forEach(span => span.textContent = postData.username);
+
+    // 본문 내용
+    const captionText = modal.querySelector('.modal-caption-text');
+    if(captionText) captionText.textContent = postData.caption;
+    
+    // 시간
+    const timeText = modal.querySelector('.modal-time-text');
+    if(timeText) timeText.textContent = postData.time;
+
+    // 좋아요 수
+    const likesText = modal.querySelector('.modal-likes-count');
+    if(likesText) likesText.textContent = `좋아요 ${postData.likes}개`;
+
+    // 2. 모달 열기
+    modal.style.display = 'flex';
     document.body.style.overflow = 'hidden'; // 배경 스크롤 막기
-    contentWrapper.innerHTML = '<p style="padding:20px;">Loading...</p>';
 
-    try {
-        // 2. 데이터 찾기 (feed.json에서 ID로 검색)
-        const dataRes = await fetch('./assets/data/feed.json');
-        const feedData = await dataRes.json();
-        // 문자열/숫자 형변환 주의 (== 사용)
-        const post = feedData.posts.find(p => p.id == postId);
+    // 3. 닫기 이벤트
+    const closeModal = () => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    };
 
-        if (!post) throw new Error('Post not found');
-
-        // 3. 템플릿 가져오기
-        const templateRes = await fetch('./components/post-modal.html');
-        let html = await templateRes.text();
-
-        // 4. 데이터 바인딩 (단순 치환)
-        html = html.replace(/{{mediaUrl}}/g, post.mediaUrl)
-                   .replace(/{{author.username}}/g, post.author.username)
-                   .replace(/{{author.profileImageUrl}}/g, post.author.profileImageUrl)
-                   .replace(/{{caption}}/g, post.caption);
-
-        // 5. DOM 삽입
-        contentWrapper.innerHTML = html;
-
-        // 6. 닫기 버튼 이벤트 연결 (동적으로 생성된 버튼이므로 여기서 연결)
-        const closeBtn = contentWrapper.querySelector('.post-modal__close-button');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => closePostModal());
-        }
-
-    } catch (error) {
-        console.error(error);
-        contentWrapper.innerHTML = '<p>Error loading content</p>';
-    }
+    closeBtn.onclick = closeModal;
+    modal.onclick = (e) => {
+        if (e.target === modal) closeModal();
+    };
 }
-
-export function closePostModal() {
-    const modal = document.getElementById('post-detail-modal');
-    if (modal) {
-        modal.classList.remove('post-modal--active');
-        document.body.style.overflow = ''; // 스크롤 복원
-    }
-}
-
-// 배경 클릭 시 닫기 (이벤트 위임)
-document.addEventListener('click', (e) => {
-    const modal = document.getElementById('post-detail-modal');
-    if (e.target === modal) {
-        closePostModal();
-    }
-});
